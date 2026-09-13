@@ -1,0 +1,41 @@
+Modules
+backend::app::AppModule
+├── backend::app::module::post::PostModule
+│   └── backend::app::provider::DatabaseModule
+└── backend::app::module::user::UserModule
+    └── backend::app::provider::DatabaseModule
+
+Providers
+alloc::sync::Arc<dyn backend::app::module::post::trait::PostRepository + core::marker::Send + core::marker::Sync>  owner=backend::app::module::post::PostModule origin=provider visibility=public state=planned
+alloc::sync::Arc<dyn backend::app::module::post::trait::PostService + core::marker::Send + core::marker::Sync>     owner=backend::app::module::post::PostModule origin=provider visibility=public state=planned
+alloc::sync::Arc<dyn backend::app::module::user::trait::UserRepository + core::marker::Send + core::marker::Sync>  owner=backend::app::module::user::UserModule origin=provider visibility=public state=planned
+alloc::sync::Arc<dyn backend::app::module::user::trait::UserService + core::marker::Send + core::marker::Sync>     owner=backend::app::module::user::UserModule origin=provider visibility=public state=planned
+backend::app::module::post::controller::PostController                                                             owner=backend::app::module::post::PostModule origin=service visibility=public state=planned
+backend::app::module::post::service::PostServiceImpl                                                               owner=backend::app::module::post::PostModule origin=service visibility=public state=planned
+backend::app::module::user::controller::UserController                                                             owner=backend::app::module::user::UserModule origin=service visibility=public state=planned
+backend::app::module::user::service::UserServiceImpl                                                               owner=backend::app::module::user::UserModule origin=service visibility=public state=planned
+mads_common::server_config::ServerBinding                                                                          owner=(none) origin=auto_configuration visibility=public state=auto_configured
+mads_core::config::Config                                                                                          owner=(none) origin=provided visibility=public state=provided
+sea_orm::database::db_connection::DatabaseConnection                                                               owner=backend::app::provider::DatabaseModule origin=provider visibility=public state=planned
+
+Dependencies
+alloc::sync::Arc<dyn backend::app::module::post::trait::PostRepository + core::marker::Send + core::marker::Sync> -> sea_orm::database::db_connection::DatabaseConnection
+alloc::sync::Arc<dyn backend::app::module::post::trait::PostService + core::marker::Send + core::marker::Sync> -> backend::app::module::post::service::PostServiceImpl
+alloc::sync::Arc<dyn backend::app::module::user::trait::UserRepository + core::marker::Send + core::marker::Sync> -> sea_orm::database::db_connection::DatabaseConnection
+alloc::sync::Arc<dyn backend::app::module::user::trait::UserService + core::marker::Send + core::marker::Sync> -> backend::app::module::user::service::UserServiceImpl
+backend::app::module::post::controller::PostController -> alloc::sync::Arc<dyn backend::app::module::post::trait::PostService + core::marker::Send + core::marker::Sync>
+backend::app::module::post::service::PostServiceImpl -> alloc::sync::Arc<dyn backend::app::module::post::trait::PostRepository + core::marker::Send + core::marker::Sync>
+backend::app::module::user::controller::UserController -> alloc::sync::Arc<dyn backend::app::module::user::trait::UserService + core::marker::Send + core::marker::Sync>
+backend::app::module::user::service::UserServiceImpl -> alloc::sync::Arc<dyn backend::app::module::user::trait::UserRepository + core::marker::Send + core::marker::Sync>
+sea_orm::database::db_connection::DatabaseConnection -> Config
+
+Construction order
+1. sea_orm::database::db_connection::DatabaseConnection
+2. alloc::sync::Arc<dyn backend::app::module::post::trait::PostRepository + core::marker::Send + core::marker::Sync>
+3. alloc::sync::Arc<dyn backend::app::module::user::trait::UserRepository + core::marker::Send + core::marker::Sync>
+4. backend::app::module::post::service::PostServiceImpl
+5. alloc::sync::Arc<dyn backend::app::module::post::trait::PostService + core::marker::Send + core::marker::Sync>
+6. backend::app::module::post::controller::PostController
+7. backend::app::module::user::service::UserServiceImpl
+8. alloc::sync::Arc<dyn backend::app::module::user::trait::UserService + core::marker::Send + core::marker::Sync>
+9. backend::app::module::user::controller::UserController

@@ -1,0 +1,14 @@
+[package]
+name = "backend"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+
+[dependencies]
+async-trait = "=0.1.92"
+diesel = { version = "=2.2.12", features = ["postgres"] }
+mads = { version = "=0.8.0", default-features = false, features = ["http", "runtime-tokio", "database"] }
+serde = { version = "=1.0.229", features = ["derive"] }
+
+[dev-dependencies]
+tokio = { version = "=1.53.1", features = ["macros", "rt"] }
