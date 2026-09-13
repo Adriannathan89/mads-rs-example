@@ -1,0 +1,4 @@
+# Environment files may contain local secrets such as database credentials.
+.env
+.env.*
+!.env.example
